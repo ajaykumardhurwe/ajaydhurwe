@@ -13,7 +13,7 @@ import TestTopics from "./screens/TestTopics";
 import MCQTest from "./screens/MCQTest";
 import JobDetails from "./screens/JobDetails";
 import CourseDetailsScreen from "./screens/CourseDetailsScreen";
-import ClassroomScreen from "./screens/ClassroomScreen";
+// import ClassroomScreen from "./screens/ClassroomScreen";
 import TestNumbers from "./screens/TestNumbers";
 import ServicesScreen from "./screens/ServicesScreen";
 import WebDevelopmentScreen from "./screens/services/WebDevelopmentScreen";
@@ -108,7 +108,6 @@ function HomeStackNavigator() {
       <Stack.Screen name="JobDetails" component={JobDetails} options={{ title: "Job Details" }} /> */}
       <Stack.Screen name="H" component={HomeScreen} />
       <Stack.Screen name="CourseDetails" component={CourseDetailsScreen} />
-      <Stack.Screen name="Classroom" component={ClassroomScreen} />
     </Stack.Navigator>
   );
 }

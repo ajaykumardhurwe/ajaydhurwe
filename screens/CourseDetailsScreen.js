@@ -1,104 +1,108 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import { FontAwesome5, MaterialIcons } from '@expo/vector-icons';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 
-const courseDetails = [
-  { 
-    id: '1', 
-    title: '📖 Module 1: व्याकरण (Grammar)', 
-    description: '✍️ सही इंग्लिश बोलने और लिखने की नींव मजबूत करने के लिए संज्ञा, सर्वनाम, विशेषण, काल, वाक्य संरचना, सक्रिय/निष्क्रिय वाच्य, और कर्ता-क्रिया संगति जैसे महत्वपूर्ण व्याकरण नियमों को सीखें। (Build a strong foundation in English by learning essential grammar rules like nouns, pronouns, adjectives, tenses, sentence structure, active/passive voice, and subject-verb agreement.)' 
-  },
+const CourseDetailsScreen = () => {
+  return (
+    <ScrollView style={styles.container}>
+      <Text style={styles.header}>📚 कोर्स विवरण (Course Details)</Text>
 
+      {/* 📖 Grammar Section */}
+      <Text style={styles.sectionTitle}>
+        <MaterialIcons name="library-books" size={22} color="blue" /> व्याकरण (Grammar)
+      </Text>
+      <Text style={styles.listItem}>🔹 संज्ञा (Nouns), सर्वनाम (Pronouns), विशेषण (Adjectives)</Text>
+      <Text style={styles.listItem}>🔹 क्रिया (Verbs) और काल (Tenses) - वर्तमान, भूत, भविष्य</Text>
+      <Text style={styles.listItem}>🔹 क्रियाविशेषण (Adverbs) और पूर्वसर्ग (Prepositions)</Text>
+      <Text style={styles.listItem}>🔹 उपवाक्य संरचना (Sentence Structure) - सरल, मिश्रित, संयुक्त</Text>
+      <Text style={styles.listItem}>🔹 वाच्य (Voice) - कर्तृवाच्य, कर्मवाच्य</Text>
+      <Text style={styles.listItem}>🔹 प्रत्यक्ष और अप्रत्यक्ष कथन (Direct & Indirect Speech)</Text>
 
-  { 
-    id: '2', 
-    title: 'Coming Soon', 
-    description: '.................' 
-  },
+      {/* 🗣 Vocabulary Section */}
+      <Text style={styles.sectionTitle}>
+        <FontAwesome5 name="book-open" size={20} color="green" /> शब्दावली (Vocabulary)
+      </Text>
+      <Text style={styles.listItem}>🔹 पर्यायवाची और विलोम शब्द (Synonyms & Antonyms)</Text>
+      <Text style={styles.listItem}>🔹 समानार्थक और बहुअर्थी शब्द (Homophones & Homonyms)</Text>
+      <Text style={styles.listItem}>🔹 मुहावरे और वाक्यांश (Idioms & Phrases)</Text>
+      <Text style={styles.listItem}>🔹 शब्द निर्माण (Word Formation) - उपसर्ग, प्रत्यय</Text>
+      <Text style={styles.listItem}>🔹 अक्सर भ्रमित करने वाले शब्द (Commonly Confused Words)</Text>
 
-  // { 
-  //   id: '2', 
-  //   title: '📝 Module 2: शब्दावली (Vocabulary)', 
-  //   description: '📚 अपनी शब्दावली को सुधारें और पर्यायवाची-विलोम, मुहावरे, कोलोकेशन, शब्द निर्माण और अक्सर भ्रमित करने वाले शब्दों का अभ्यास करें ताकि संचार अधिक प्रभावी हो सके। (Enhance your vocabulary with synonyms, antonyms, idioms, collocations, word formation, and commonly confused words to make communication more effective.)' 
-  // },
+      {/* ✍ Writing Skills */}
+      <Text style={styles.sectionTitle}>
+        <MaterialIcons name="create" size={22} color="purple" /> लेखन कौशल (Writing Skills)
+      </Text>
+      <Text style={styles.listItem}>🔹 निबंध लेखन (Essay Writing)</Text>
+      <Text style={styles.listItem}>🔹 पत्र लेखन (Letter Writing) - औपचारिक और अनौपचारिक</Text>
+      <Text style={styles.listItem}>🔹 सार लेखन (Precis Writing)</Text>
+      <Text style={styles.listItem}>🔹 रचनात्मक लेखन (Creative Writing) - कहानी, कविता</Text>
+      <Text style={styles.listItem}>🔹 रिपोर्ट लेखन (Report Writing)</Text>
 
+      {/* 🎤 Speaking & Listening */}
+      <Text style={styles.sectionTitle}>
+        <FontAwesome5 name="microphone" size={20} color="red" /> बोलने और सुनने की कला (Speaking & Listening)
+      </Text>
+      <Text style={styles.listItem}>🔹 संवाद अभ्यास (Conversation Practice)</Text>
+      <Text style={styles.listItem}>🔹 सार्वजनिक भाषण (Public Speaking)</Text>
+      <Text style={styles.listItem}>🔹 वाद-विवाद (Debates & Discussions)</Text>
+      <Text style={styles.listItem}>🔹 श्रवण कौशल (Listening Comprehension)</Text>
 
-  // { 
-  //   id: '3', 
-  //   title: '🖊️ Module 3: लेखन कौशल (Writing Skills)', 
-  //   description: '📝 निबंध लेखन, औपचारिक और अनौपचारिक पत्र लेखन, रचनात्मक लेखन, रिपोर्ट लेखन और अनुच्छेद लेखन जैसी लेखन विधियों को सीखकर अपनी लेखन क्षमता को निखारें। (Improve your writing skills by learning essay writing, formal & informal letter writing, creative writing, report writing, and paragraph writing.)' 
-  // },
-  // { 
-  //   id: '4', 
-  //   title: '🎤 Module 4: बोलने और सुनने का अभ्यास (Speaking & Listening)', 
-  //   description: '🗣️ संवाद अभ्यास, सार्वजनिक भाषण, वाद-विवाद और श्रवण समझ जैसे कौशलों के माध्यम से आत्मविश्वास के साथ इंग्लिश बोलना और समझना सीखें। (Boost your confidence in English speaking and comprehension through conversation practice, public speaking, debates, and listening exercises.)' 
-  // },
-  // { 
-  //   id: '5', 
-  //   title: '📖 Module 5: पठन समझ (Reading Comprehension)', 
-  //   description: '👀 स्किमिंग, स्कैनिंग, मुख्य विचारों को समझना, और आलोचनात्मक सोच जैसे कौशल विकसित करें ताकि किसी भी पाठ को बेहतर ढंग से समझा जा सके। (Develop reading skills such as skimming, scanning, understanding main ideas, and critical thinking for better text comprehension.)' 
-  // },
-  // { 
-  //   id: '6', 
-  //   title: '📜 Module 6: साहित्य (Literature)', 
-  //   description: '📖 कविता और गद्य की गहरी व्याख्या करें और रूपक, उपमा, और व्यक्तित्व जैसी साहित्यिक विधियों को समझकर इंग्लिश साहित्य का आनंद लें। (Analyze poetry and prose, and explore literary devices like metaphors, similes, and personification to appreciate English literature.)' 
-  // },
-  // { 
-  //   id: '7', 
-  //   title: '📝 Module 7: परीक्षा तैयारी (Exam Preparation)', 
-  //   description: '📑 प्रतियोगी परीक्षाओं के लिए त्रुटि पहचान, क्लोज़ टेस्ट, वाक्य पुनर्व्यवस्था, रिक्त स्थान भरें और पठन प्रश्नों पर विशेष ध्यान दें। (Prepare for competitive exams with focused topics like error spotting, cloze tests, sentence rearrangement, fill-in-the-blanks, and reading comprehension questions.)' 
-  // }
-]
+      {/* 📖 Reading Comprehension */}
+      <Text style={styles.sectionTitle}>
+        <MaterialIcons name="menu-book" size={22} color="orange" /> पढ़ने की समझ (Reading Comprehension)
+      </Text>
+      <Text style={styles.listItem}>🔹 मुख्य बिंदु और विवरण समझना (Main Ideas & Details)</Text>
+      <Text style={styles.listItem}>🔹 अनुमान और आलोचनात्मक सोच (Inferencing & Critical Thinking)</Text>
 
-export default function CourseDetailsScreen({ navigation }) {
-  const renderDropdown = ({ item }) => (
-    <View style={styles.dropdown}>
-      <Text style={styles.dropdownTitle}>{item.title}</Text>
-      <Text style={styles.dropdownDescription}>{item.description}</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('Classroom')}
-      >
-        <MaterialIcons name="class" size={20} color="#fff" />
-        <Text style={styles.buttonText}> Classroom</Text>
-      </TouchableOpacity>
-    </View>
+      {/* 📚 Exam-Specific Topics */}
+      <Text style={styles.sectionTitle}>
+        <FontAwesome5 name="clipboard-list" size={20} color="brown" /> परीक्षा संबंधित विषय (Exam-Specific Topics)
+      </Text>
+      <Text style={styles.listItem}>🔹 वाक्य पुनर्व्यवस्था (Sentence Rearrangement)</Text>
+      <Text style={styles.listItem}>🔹 क्लोज टेस्ट (Cloze Test)</Text>
+      <Text style={styles.listItem}>🔹 रिक्त स्थान भरें (Fill in the Blanks)</Text>
+      <Text style={styles.listItem}>🔹 त्रुटि पहचान (Spotting Errors)</Text>
+
+      <Text style={styles.footer}>😊 यह कोर्स आपकी अंग्रेज़ी सुधारने में मदद करेगा!</Text>
+    </ScrollView>
   );
+};
 
-  return <FlatList data={courseDetails} renderItem={renderDropdown} keyExtractor={(item) => item.id} />;
-}
-
+// 🎨 Styling
 const styles = StyleSheet.create({
-  dropdown: {
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+  container: {
+    flex: 1,
     backgroundColor: '#f9f9f9',
-    borderRadius: 10,
-    marginVertical: 5,
+    padding: 15,
   },
-  dropdownTitle: {
+  header: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 10,
+    color: '#2c3e50',
+  },
+  sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    marginTop: 15,
+    marginBottom: 5,
+    color: '#34495e',
   },
-  dropdownDescription: {
-    fontSize: 14,
-    color: '#555',
-    marginVertical: 5,
-  },
-  button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#007bff',
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 10,
-    justifyContent: 'center',
-  },
-  buttonText: {
-    color: '#fff',
+  listItem: {
     fontSize: 16,
-    marginLeft: 5,
+    marginLeft: 10,
+    marginBottom: 3,
+    color: '#555',
+  },
+  footer: {
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 15,
+    marginBottom: 20,
+    color: '#27ae60',
   },
 });
+
+export default CourseDetailsScreen;

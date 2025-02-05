@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Share,
   Button,
+  ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Card } from "react-native-paper";
@@ -17,6 +18,7 @@ export default function JobScreen() {
   const [jobsData, setJobsData] = useState([]);
   const [filteredJobs, setFilteredJobs] = useState([]);
   const [locationFilter, setLocationFilter] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
   const googleSheetUrls = {
@@ -28,6 +30,7 @@ export default function JobScreen() {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const url = googleSheetUrls[activeTab];
         const response = await fetch(url);
@@ -46,13 +49,14 @@ export default function JobScreen() {
         });
 
         const validJobs = data.filter((job) => job["Job Title"]);
-
         setJobsData(validJobs);
         setFilteredJobs(validJobs);
       } catch (error) {
         console.error("Error fetching jobs:", error.message);
         setJobsData([]);
         setFilteredJobs([]);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -117,52 +121,59 @@ Apply Now! 🚀`;
       </Picker>
       <Button title="🔍 Apply Filter" onPress={handleFilter} />
 
-      {/* Job List */}
-      <FlatList
-        data={filteredJobs}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <Card style={styles.jobCard}>
-            {/* First Row - Job Icon and Title */}
-            <View style={styles.row}>
-              <Text style={styles.jobIcon}>💼</Text>
-              <Text style={styles.jobTitle}>{item["Job Title"]}</Text>
-            </View>
+      {/* Loading Indicator */}
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#007bff" />
+          <Text style={styles.loadingText}>Fetching Jobs...</Text>
+        </View>
+      ) : (
+        <FlatList
+          data={filteredJobs}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <Card style={styles.jobCard}>
+              {/* First Row - Job Icon and Title */}
+              <View style={styles.row}>
+                <Text style={styles.jobIcon}>💼</Text>
+                <Text style={styles.jobTitle}>{item["Job Title"]}</Text>
+              </View>
 
-            {/* Second Row - Start Date and End Date */}
-            <View style={styles.row}>
-              <Text style={[styles.date, { color: "green" }]}>
-                📅 Start: {item["Start Date"]}
-              </Text>
-              <Text style={[styles.date, { color: "red" }]}>
-                ⏳ End: {item["End Date"]}
-              </Text>
-            </View>
+              {/* Second Row - Start Date and End Date */}
+              <View style={styles.row}>
+                <Text style={[styles.date, { color: "green" }]}>
+                  📅 Start: {item["Start Date"]}
+                </Text>
+                <Text style={[styles.date, { color: "red" }]}>
+                  ⏳ End: {item["End Date"]}
+                </Text>
+              </View>
 
-            {/* Third Row - Location and Salary */}
-            <View style={styles.row}>
-              <Text style={styles.location}>📍 {item["Location"]}</Text>
-              <Text style={styles.salary}>💰 {item["Salary"] || "N/A"}</Text>
-            </View>
+              {/* Third Row - Location and Salary */}
+              <View style={styles.row}>
+                <Text style={styles.location}>📍 {item["Location"]}</Text>
+                <Text style={styles.salary}>💰 {item["Salary"] || "N/A"}</Text>
+              </View>
 
-            {/* Fourth Row - Job Details and Share */}
-            <View style={styles.row}>
-              <TouchableOpacity
-                style={styles.detailsButton}
-                onPress={() => navigation.navigate("JobDetails", { job: item })}
-              >
-                <Text style={styles.buttonText}>📄 Job Details</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.shareButton}
-                onPress={() => shareJob(item)}
-              >
-                <Text style={styles.buttonText}>📤 Share</Text>
-              </TouchableOpacity>
-            </View>
-          </Card>
-        )}
-      />
+              {/* Fourth Row - Job Details and Share */}
+              <View style={styles.row}>
+                <TouchableOpacity
+                  style={styles.detailsButton}
+                  onPress={() => navigation.navigate("JobDetails", { job: item })}
+                >
+                  <Text style={styles.buttonText}>📄 Job Details</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.shareButton}
+                  onPress={() => shareJob(item)}
+                >
+                  <Text style={styles.buttonText}>📤 Share</Text>
+                </TouchableOpacity>
+              </View>
+            </Card>
+          )}
+        />
+      )}
     </View>
   );
 }
@@ -195,9 +206,7 @@ const styles = StyleSheet.create({
   detailsButton: { backgroundColor: "#007bff", padding: 8, borderRadius: 5 },
   shareButton: { backgroundColor: "#28a745", padding: 8, borderRadius: 5 },
   buttonText: { color: "#fff", fontWeight: "bold" },
+  loadingContainer: { alignItems: "center", marginVertical: 20 },
+  loadingText: { marginTop: 10, fontSize: 16, fontWeight: "bold" },
 });
-
-
-
-
 
